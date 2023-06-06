@@ -45,6 +45,6 @@ public class Util {
         if (duration > 1000000) formattedTime = String.format("%.5f Milliseconds", (double) duration / 1000000);
         else formattedTime = String.format("%d Nanoseconds", duration);
 
-        return String.format("|%32s|", formattedTime);
+        return String.format("%32s|", formattedTime);
     }
 }

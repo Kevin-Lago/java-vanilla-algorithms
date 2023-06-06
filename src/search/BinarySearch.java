@@ -52,7 +52,7 @@ public class BinarySearch extends Application {
             iterativeBinarySearch(arrays[i], xs[i]);
         }
         long endTime = System.nanoTime();
-        System.out.println(formatMessage("Iterative binary search ran " + n + " times in: ") + formatNanoTime(startTime, endTime));
+        System.out.println(formatMessage("Iterative binary search ran " + n + " time(s) in: ") + formatNanoTime(startTime, endTime));
         return (endTime - startTime);
     }
 
@@ -71,7 +71,7 @@ public class BinarySearch extends Application {
             recursiveBinarySearch(arrays[i], 0, length - 1, xs[i]);
         }
         long endTime = System.nanoTime();
-        System.out.println(formatMessage("Recursive binary search ran " + n + " times in: ") + formatNanoTime(startTime, endTime));
+        System.out.println(formatMessage("Recursive binary search ran " + n + " time(s) in: ") + formatNanoTime(startTime, endTime));
         return (endTime - startTime);
     }
 
