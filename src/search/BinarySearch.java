@@ -1,7 +1,5 @@
 package search;
 
-import java.util.Arrays;
-
 import static util.Util.*;
 
 public class BinarySearch {
@@ -15,7 +13,8 @@ public class BinarySearch {
         int i = iterativeBinarySearch(array, x);
         long endTime = System.nanoTime();
         if (i == -1) System.out.println(x + " was not found in " + formatNanoTime(startTime, endTime));
-        else System.out.println(formatMessage("Iterative binary search found int " + x +  " at index " + i + " in: ") + formatNanoTime(startTime, endTime));
+        else
+            System.out.println(formatMessage("Iterative binary search found int " + x + " at index " + i + " in: ") + formatNanoTime(startTime, endTime));
 
         startTime = System.nanoTime();
         recursiveBinarySearch(array, 0, array.length - 1, x);
@@ -40,7 +39,7 @@ public class BinarySearch {
         }
         long endTime = System.nanoTime();
 
-        System.out.println(formatMessage("Iterative binary search ran " + n +  " times in: ") + formatNanoTime(startTime, endTime));
+        System.out.println(formatMessage("Iterative binary search ran " + n + " times in: ") + formatNanoTime(startTime, endTime));
     }
 
     public static void runRecursiveBinarySearchNTimes(int n, int length, int min, int max) {
@@ -59,14 +58,14 @@ public class BinarySearch {
         }
         long endTime = System.nanoTime();
 
-        System.out.println(formatMessage("Recursive binary search ran " + n +  " times in: ") + formatNanoTime(startTime, endTime));
+        System.out.println(formatMessage("Recursive binary search ran " + n + " times in: ") + formatNanoTime(startTime, endTime));
     }
 
     public static int iterativeBinarySearch(int[] array, int x) {
         int lowLimit = 0;
         int highLimit = array.length - 1;
 
-        while(lowLimit <= highLimit) {
+        while (lowLimit <= highLimit) {
             int index = lowLimit + (highLimit - lowLimit) / 2;
 
             if (array[index] == x) return index;
@@ -86,6 +85,6 @@ public class BinarySearch {
             else return recursiveBinarySearch(array, index + 1, highLimit, x);
         }
 
-        return - 1;
+        return -1;
     }
 }

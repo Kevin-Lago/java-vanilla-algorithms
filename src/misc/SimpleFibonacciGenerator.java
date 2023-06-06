@@ -1,8 +1,5 @@
 package misc;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SimpleFibonacciGenerator {
     public static void main(String[] args) {
         int fn = simpleFibonacciSeries(10);
