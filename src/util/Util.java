@@ -1,8 +1,21 @@
 package util;
 
+import javafx.scene.chart.XYChart;
+
 import java.util.Arrays;
 
 public class Util {
+    public static XYChart.Series generateLogarithmicSeries(int t, int m) {
+        XYChart.Series logarithmicSeries = new XYChart.Series();
+        logarithmicSeries.setName("Logarithmic Series");
+
+        for (int i = 0; i < t; i++) {
+            logarithmicSeries.getData().add(new XYChart.Data<>(i, Math.log(i + 1) * m));
+        }
+
+        return logarithmicSeries;
+    }
+
     public static int[] generateRandomIntArray(int length, int min, int max) {
         int[] array = new int[length];
         int range = max - min + 1;
