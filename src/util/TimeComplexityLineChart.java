@@ -6,7 +6,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
-import search.BinarySearch;
+//import search.BinarySearch;
 
 public class TimeComplexityLineChart extends Application {
     @Override
@@ -30,7 +30,7 @@ public class TimeComplexityLineChart extends Application {
         Scene scene = new Scene(lineChart, 800, 600);
         lineChart.getData().add(logarithmicSeries);
 //        lineChart.getData().add(linearSeries);
-        lineChart.getData().add(BinarySearch.generateIterativeBinarySearchSeries(100));
+//        lineChart.getData().add(BinarySearch.generateIterativeBinarySearchSeries(100));
 
         primaryStage.setScene(scene);
         primaryStage.show();
