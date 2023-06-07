@@ -1,6 +1,6 @@
 # Java Vanilla Algorithms
 
-This project hopes to explore different algorithms.
+This project hopes to explore different algorithms and visualize their results with estimated time complexity charts.
 
 ### Searching Algorithms
 
