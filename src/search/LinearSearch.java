@@ -71,6 +71,31 @@ public class LinearSearch extends Application {
         return -1;
     }
 
+    public static List<Long> runLinearIntegerListForLoopSearchForN(int n) {
+        List<Long> data = new ArrayList<>();
+
+        for (int i = 1; i <= n; i++) {
+            List<List<Integer>> integerListsList = new ArrayList<>();
+            List<Integer> integers = new ArrayList<>();
+
+            for (int j = 0; j < i; j++) {
+                integerListsList.add(IntStream.rangeClosed(0, j).boxed().collect(Collectors.toList()));
+                integers.add(random.nextInt(integerListsList.get(j).size()));
+            }
+
+            long startTime = System.nanoTime();
+            for (int j = 0; j < i; j++) {
+                linearIntegerListForLoopSearch(integerListsList.get(j), integers.get(j));
+            }
+            long endTime = System.nanoTime();
+
+            System.out.println(formatMessage("Linear search ran " + i + " time(s) in: ") + formatNanoTime(startTime, endTime));
+            data.add((endTime - startTime));
+        }
+
+        return data;
+    }
+
     public static XYChart.Series generatelinearIntegerListStreamFilterSearchSeries(int n) {
         XYChart.Series series = new XYChart.Series();
         series.setName("Integer List For Loop");
@@ -198,11 +223,18 @@ public class LinearSearch extends Application {
         lineChart.setTitle("Time Complexity of Linear Search");
         int n = 1000;
 
+
         Scene scene = new Scene(lineChart, 800, 600);
-        lineChart.getData().add(generateLinearSeries(n, 500));
-        lineChart.getData().add(generateLinearIntegerListForLoopSearchSeries(n));
-        lineChart.getData().add(generateLinearIntegerArrayForLoopSearchSeries(n));
-        lineChart.getData().add(generatelinearIntegerListStreamFilterSearchSeries(n));
+//        runLinearIntegerListStreamFilterSearchSeries(n);
+        List<Long> data = runLinearIntegerListForLoopSearchForN(n);
+        List<Long> estimated = linearRegressionAnalysis(data);
+        lineChart.getData().add(generateSeries("Estimated Values", estimated));
+        lineChart.getData().add(generateSeries("Uncleaned Data", data));
+//        lineChart.getData().add(generateSeries("Cleaned Data", cleanData(data)));
+//        lineChart.getData().add(generateLinearSeries(n, 500));
+//        lineChart.getData().add(generateLinearIntegerListForLoopSearchSeries(n));
+//        lineChart.getData().add(generateLinearIntegerArrayForLoopSearchSeries(n));
+//        lineChart.getData().add(generatelinearIntegerListStreamFilterSearchSeries(n));
 
         primaryStage.setScene(scene);
         primaryStage.show();

@@ -7,14 +7,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 public class Util {
-    public static XYChart.Series generateLogarithmicSeries(int t, int m) {
+    public static XYChart.Series generateLogarithmicSeries(int n, int m) {
         XYChart.Series logarithmicSeries = new XYChart.Series();
         logarithmicSeries.setName("Logarithmic Series");
 
-        for (int i = 0; i < t; i++) {
+        for (int i = 0; i < n; i++) {
             logarithmicSeries.getData().add(new XYChart.Data<>(i, Math.log(i + 1) * m));
         }
 
@@ -32,120 +32,85 @@ public class Util {
         return linearSeries;
     }
 
-    public static Integer[] generateIntegerArray(int n) {
-        Integer[] integers = new Integer[n];
+    public static XYChart.Series generateSeries(String title, List<Long> data) {
+        XYChart.Series series = new XYChart.Series();
+        series.setName(title);
 
-        for (int i = 0; i < n; i++) {
-            integers[i] = i;
+        for (int i = 0; i < data.size(); i++) {
+            series.getData().add(new XYChart.Data<>(i, data.get(i)));
         }
 
-        return integers;
+        return series;
     }
 
-    public static int[][] generateNSortedUniqueIntArrays(int n) {
-        List<List<Integer>> intLists = new ArrayList<>();
-        int[][] arrays = new int[n][n];
+    public static List<Long> linearRegressionAnalysis(List<Long> data) {
+        int independentMean = summation(data.size()) / data.size();
+        List<Integer> independentDistance = new ArrayList<>();
 
-        for (int i = 0; i < n; i++) {
-            intLists.add(new ArrayList<>());
+        for (int i = 1; i <= data.size(); i++) {
+            independentDistance.add(i - independentMean);
         }
 
-        return arrays;
-    }
+        Long dependentMean = data.stream().reduce(0L, Long::sum) / data.size();
+        List<Long> dependentDistance = new ArrayList<>();
 
-//    public static List<Integer> generateIntegerList(int start, int end) {
-//        List<Integer> range = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
-//    }
-
-    public static int[][] generateNUnsortedUniqueIntArrays(int n, int length) {
-        int[][] arrays = new int[n][length];
-
-        for (int i = 0; i < n; i++) {
-            arrays[i] = generateUnsortedUniqueIntArray(length);
+        for (int i = 0; i < data.size(); i++) {
+            dependentDistance.add(data.get(i) - dependentMean);
         }
 
-        return arrays;
-    }
+        Long sum = dependentDistance.stream().reduce(Long::sum).get(); // Sum not equal to 0
+        List<Double> squaredIndependentDistance = independentDistance.stream().map(e -> Math.pow(e, 2)).collect(Collectors.toList());
+        List<Double> distanceProduct = new ArrayList<>();
 
-    public static int[] generateUnsortedUniqueIntArray(int length) {
-        List<Integer> ints = new ArrayList<>();
-//        int[] array = new int[length];
-
-        for (int i = 0; i < length; i++) {
-            ints.add(i);
+        for (int i = 0; i < data.size(); i++) {
+            distanceProduct.add((double) dependentDistance.get(i) * independentDistance.get(i));
         }
 
-        Collections.shuffle(ints);
-        return ints.stream().mapToInt(i -> i).toArray();
-    }
+        Double squaredIndependentDistanceSum = squaredIndependentDistance.stream().reduce(Double::sum).get();
+        Double distanceProductSum = distanceProduct.stream().reduce(Double::sum).get();
+        Double b1 = distanceProductSum / squaredIndependentDistanceSum;
 
-    public static int[][] generateNSortedUniqueIntArrays(int n, int length) {
-        int[][] arrays = new int[n][length];
+        List<Long> result = new ArrayList<>();
 
-        for (int i = 0; i < n; i++) {
-            arrays[i] = generateSortedUniqueIntArray(length);
+        for (int i = 1; i <= data.size(); i++) {
+            result.add((long) ((long) i * b1));
         }
 
-        return arrays;
+        return result;
     }
 
-    public static int[] generateSortedUniqueIntArray(int length) {
-        int[] array = new int[length];
+    public static int summation(int n) {
+        int summation = 0;
 
-        for (int i = 0; i < length; i++) {
-            array[i] = i;
+        for (int i = 1; i <= n; i++) {
+            summation += i;
         }
 
-        return array;
+        return summation;
     }
 
-    public static int[][] generateNUnsortedRandomIntArrays(int n, int length, int min, int max) {
-        int[][] arrays = new int[n][length];
+    public static List<Long> cleanData(List<Long> data) {
+        Long sum = data.stream().reduce(0L, Long::sum);
+        Long mean = sum / data.size();
+        Double standardDeviation = 0.0D;
 
-        for (int i = 0; i < n; i++) {
-            arrays[i] = generateUnsortedRandomIntArray(length, min, max);
+        for (int i = 0; i < data.size(); i++) {
+            standardDeviation += Math.pow(data.get(i) - mean, 2);
         }
 
-        return arrays;
-    }
+        standardDeviation = Math.sqrt(standardDeviation / data.size());
 
-    public static int[] generateUnsortedRandomIntArray(int length, int min, int max) {
-        int[] array = new int[length];
-        int range = max - min + 1;
+        List<Long> cleanedData = new ArrayList<>();
 
-        for (int i = 0; i < length; i++) {
-            array[i] = (int) (Math.random() * range) + min;
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i) < mean + 2 * standardDeviation) {
+                cleanedData.add(data.get(i));
+            } else {
+                System.out.println("Removed value: " + data.get(i) + " from position " + i);
+            }
         }
 
-        return array;
-    }
-
-    public static int[][] generateNSortedRandomIntArrays(int n, int length, int min, int max) {
-        int[][] arrays = new int[n][length];
-
-        for (int i = 0; i < n; i++) {
-            arrays[i] = generateSortedRandomIntArray(length, min, max);
-        }
-
-        return arrays;
-    }
-
-    public static int[] generateSortedRandomIntArray(int length, int min, int max) {
-        int[] array = new int[length];
-        int range = max - min + 1;
-
-        for (int i = 0; i < length; i++) {
-            array[i] = (int) (Math.random() * range) + min;
-        }
-
-        Arrays.sort(array);
-        return array;
-    }
-
-    public static String formatMillisTime(long startTime, long endTime) {
-        long duration = (endTime - startTime);
-
-        return String.format("%d Milliseconds", duration);
+        return cleanedData;
     }
 
     public static String formatMessage(String message) {
