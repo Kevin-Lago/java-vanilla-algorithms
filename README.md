@@ -4,7 +4,8 @@ This project hopes to explore different algorithms.
 
 ### Searching Algorithms
 
-- [x] Binary Search
+- [ ] Linear Search
+- [ ] Binary Search
 
 ### Sorting Algorithms
 
