@@ -1,5 +1,6 @@
 package com.kevinthelago.search;
 
+import com.kevinthelago.search.linear.ForLoopIntegerArray;
 import com.kevinthelago.search.linear.ForLoopIntegerList;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -44,6 +45,9 @@ public class LinearSearch extends Application {
         ForLoopIntegerList forLoopIntegerList = new ForLoopIntegerList();
         List<Integer> times = forLoopIntegerList.run(n, m);
 
+        ForLoopIntegerArray forLoopIntegerArray = new ForLoopIntegerArray();
+        List<Integer> forlooptimes = forLoopIntegerArray.run(n, m);
+
         Button forLoopIntegerButton = new Button("For Loop Integer");
         VBox layout = new VBox(2);
         layout.getChildren().addAll(lineChart, forLoopIntegerButton);
@@ -53,6 +57,8 @@ public class LinearSearch extends Application {
 
         lineChart.setCreateSymbols(false);
         lineChart.getData().add(generateLinearSeries(n, 1));
+        lineChart.getData().add(generateSeries("list", m, times));
+        lineChart.getData().add(generateSeries("array", m, forlooptimes));
 
         primaryStage.setScene(scene);
         primaryStage.show();

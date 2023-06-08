@@ -11,21 +11,12 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.kevinthelago.Util.*;
+import static com.kevinthelago.Util.generateSeries;
 
-public class ForLoopIntegerList implements LinearSearch.Algorithm {
-    public static int search(List<Integer> integers, Integer x) {
-        for (int i = 0; i < integers.size(); i++) {
-            if (integers.get(i).equals(x)) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    public static int search(List<Integer> integers, int x) {
-        for (int i = 0; i < integers.size(); i++) {
-            if (integers.get(i).equals(x)) {
+public class ForLoopIntegerArray implements LinearSearch.Algorithm {
+    public static int search(Integer[] integers, int x) {
+        for (int i = 0; i < integers.length; i++) {
+            if (integers[i].equals(x)) {
                 return i;
             }
         }
@@ -38,15 +29,15 @@ public class ForLoopIntegerList implements LinearSearch.Algorithm {
         List<Integer> data = new ArrayList<>();
 
         for (int i = 0; i < n; i++) {
-            List<Integer> list = IntStream.rangeClosed(0, i * m).boxed().collect(Collectors.toList());
-            int x = random.nextInt(list.size());
+            Integer[] array = IntStream.rangeClosed(0, i * m).boxed().toArray(Integer[]::new);
+            int x = random.nextInt(array.length);
             int result = 0;
 
             long startTime = System.nanoTime();
-            result = search(list, x);
+            result = search(array, x);
             long endTime = System.nanoTime();
 
-            System.out.println(formatMessage("For Loop linear search searched " + result + " item(s) in a list of " + list.size() + " in: ") + formatNanoTime(startTime, endTime));
+            System.out.println(formatMessage("For Loop linear search searched " + result + " item(s) in a array of " + array.length + " in: ") + formatNanoTime(startTime, endTime));
             data.add((int) (endTime - startTime));
         }
 
