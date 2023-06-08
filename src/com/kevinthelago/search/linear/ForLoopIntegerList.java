@@ -40,10 +40,9 @@ public class ForLoopIntegerList implements LinearSearch.Algorithm {
         for (int i = 0; i < n; i++) {
             List<Integer> list = IntStream.rangeClosed(0, i * m).boxed().collect(Collectors.toList());
             int x = random.nextInt(list.size());
-            int result = 0;
 
             long startTime = System.nanoTime();
-            result = search(list, x);
+            int result = search(list, x);
             long endTime = System.nanoTime();
 
             System.out.println(formatMessage("For Loop linear search searched " + result + " item(s) in a list of " + list.size() + " in: ") + formatNanoTime(startTime, endTime));

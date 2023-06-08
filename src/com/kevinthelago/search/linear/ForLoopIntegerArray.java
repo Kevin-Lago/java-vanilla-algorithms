@@ -31,10 +31,9 @@ public class ForLoopIntegerArray implements LinearSearch.Algorithm {
         for (int i = 0; i < n; i++) {
             Integer[] array = IntStream.rangeClosed(0, i * m).boxed().toArray(Integer[]::new);
             int x = random.nextInt(array.length);
-            int result = 0;
 
             long startTime = System.nanoTime();
-            result = search(array, x);
+            int result = search(array, x);
             long endTime = System.nanoTime();
 
             System.out.println(formatMessage("For Loop linear search searched " + result + " item(s) in a array of " + array.length + " in: ") + formatNanoTime(startTime, endTime));
