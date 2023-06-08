@@ -39,10 +39,11 @@ public class LinearSearch extends Application {
         lineChart.setTitle("Time Complexity of Linear Search");
 
         int n = 100;
+        int m = 100000;
 
         ForLoopIntegerList forLoopIntegerList = new ForLoopIntegerList();
+        List<Integer> times = forLoopIntegerList.run(n, m);
 
-        List<Integer> times = forLoopIntegerList.run(n);
         Button forLoopIntegerButton = new Button("For Loop Integer");
         VBox layout = new VBox(2);
         layout.getChildren().addAll(lineChart, forLoopIntegerButton);
@@ -55,5 +56,11 @@ public class LinearSearch extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    public interface Algorithm {
+        List<Integer> run(int n, int m);
+
+        Scene createScene(List<Integer> times);
     }
 }

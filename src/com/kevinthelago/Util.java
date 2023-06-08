@@ -31,12 +31,12 @@ public class Util {
         return linearSeries;
     }
 
-    public static XYChart.Series generateSeries(String title, List<Integer> data) {
+    public static XYChart.Series generateSeries(String title, int multiplier, List<Integer> data) {
         XYChart.Series series = new XYChart.Series();
         series.setName(title);
 
         for (int i = 0; i < data.size(); i++) {
-            series.getData().add(new XYChart.Data<>(i, data.get(i)));
+            series.getData().add(new XYChart.Data<>(i * multiplier, data.get(i)));
         }
 
         return series;

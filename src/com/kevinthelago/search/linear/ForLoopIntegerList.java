@@ -1,6 +1,6 @@
 package com.kevinthelago.search.linear;
 
-import com.kevinthelago.Algorithm;
+import com.kevinthelago.search.LinearSearch;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
 
 import static com.kevinthelago.Util.*;
 
-public class ForLoopIntegerList implements Algorithm {
+public class ForLoopIntegerList implements LinearSearch.Algorithm {
     public static int search(List<Integer> integers, Integer x) {
         for (int i = 0; i < integers.size(); i++) {
             if (integers.get(i).equals(x)) {
@@ -33,11 +33,11 @@ public class ForLoopIntegerList implements Algorithm {
         return -1;
     }
 
-    public List<Integer> run(int n) {
+    public List<Integer> run(int n, int m) {
         List<Integer> data = new ArrayList<>();
 
         for (int i = 0; i < n; i++) {
-            List<Integer> list = IntStream.rangeClosed(0, i * 100000).boxed().collect(Collectors.toList());
+            List<Integer> list = IntStream.rangeClosed(0, i * m).boxed().collect(Collectors.toList());
             int x = random.nextInt(list.size());
             int result = 0;
 
@@ -56,16 +56,17 @@ public class ForLoopIntegerList implements Algorithm {
     public Scene createScene(List<Integer> times) {
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Number of runs");
-        yAxis.setLabel("Figure out how to display time (scaled)");
+        xAxis.setLabel("Number of elements");
+        yAxis.setLabel("Time in Nanoseconds");
+        int multiplier = 10000;
 
         final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
         lineChart.setCreateSymbols(false);
         lineChart.setTitle("Time Complexity of Linear Search");
 
         List<Integer> estimated = linearRegressionAnalysis(times);
-        lineChart.getData().add(generateSeries("Estimated Values", estimated));
-        lineChart.getData().add(generateSeries("Uncleaned Data", times));
+        lineChart.getData().add(generateSeries("Estimated Values", multiplier, estimated));
+        lineChart.getData().add(generateSeries("Uncleaned Data", multiplier, times));
 
         Scene scene = new Scene(lineChart, 800, 600);
         scene.getStylesheets().add("com/kevinthelago/style/Chart.css");
