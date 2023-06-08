@@ -16,10 +16,10 @@
     -fx-background-color: #bbbbbb;
 }
 .chart-vertical-grid-lines {
-    -fx-stroke: #aacccc;
+    -fx-stroke: #99bbbb;
 }
 .chart-horizontal-grid-lines {
-    -fx-stroke: #ccccaa;
+    -fx-stroke: #99bbbb;
 }
 .chart-alternative-row-fill {
     -fx-fill: #cccccc;
@@ -33,13 +33,13 @@
     -fx-effect: null;
 }
 
-.default-color0.chart-series-line { -fx-stroke: #e9967a; }
-.default-color1.chart-series-line { -fx-stroke: #f0e68c; }
-.default-color2.chart-series-line { -fx-stroke: #dda0dd; }
+.default-color0.chart-series-line { -fx-stroke: #ff0000; }
+.default-color1.chart-series-line { -fx-stroke: #00ffff; }
+.default-color2.chart-series-line { -fx-stroke: #0000ff; }
 
-.default-color0.chart-line-symbol { -fx-background-color: #e9967a, white; }
-.default-color1.chart-line-symbol { -fx-background-color: #f0e68c, white; }
-.default-color2.chart-line-symbol { -fx-background-color: #dda0dd, white; }
+.default-color0.chart-line-symbol { -fx-background-color: #ff0000 }
+.default-color1.chart-line-symbol { -fx-background-color: #00ffff }
+.default-color2.chart-line-symbol { -fx-background-color: #0000ff }
 
 // Legend
 .chart-legend {

@@ -31,7 +31,7 @@ public class Util {
         return linearSeries;
     }
 
-    public static XYChart.Series generateSeries(String title, List<Long> data) {
+    public static XYChart.Series generateSeries(String title, List<Integer> data) {
         XYChart.Series series = new XYChart.Series();
         series.setName(title);
 
@@ -42,37 +42,37 @@ public class Util {
         return series;
     }
 
-    public static List<Long> linearRegressionAnalysis(List<Long> data) {
+    public static List<Integer> linearRegressionAnalysis(List<Integer> data) {
         int independentMean = summation(data.size()) / data.size();
         List<Integer> independentDistance = new ArrayList<>();
-
         for (int i = 1; i <= data.size(); i++) {
             independentDistance.add(i - independentMean);
         }
 
-        Long dependentMean = data.stream().reduce(0L, Long::sum) / data.size();
+        Integer dependentMean = data.stream().reduce(0, Integer::sum) / data.size();
         List<Long> dependentDistance = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            dependentDistance.add((long) data.get(i) - dependentMean);
+        }
+        Long dependentDistanceSum = dependentDistance.stream().reduce(Long::sum).get();
+
+        List<Long> squaredIndependentDistance = independentDistance.stream().map(e -> (long) Math.pow(e, 2)).collect(Collectors.toList());
+        List<Long> distanceProduct = new ArrayList<>();
 
         for (int i = 0; i < data.size(); i++) {
-            dependentDistance.add(data.get(i) - dependentMean);
+            distanceProduct.add(dependentDistance.get(i) * independentDistance.get(i));
         }
 
-        Long sum = dependentDistance.stream().reduce(Long::sum).get(); // Sum not equal to 0
-        List<Double> squaredIndependentDistance = independentDistance.stream().map(e -> Math.pow(e, 2)).collect(Collectors.toList());
-        List<Double> distanceProduct = new ArrayList<>();
+        Long squaredIndependentDistanceSum = squaredIndependentDistance.stream().reduce(Long::sum).get();
+        Long distanceProductSum = distanceProduct.stream().reduce(Long::sum).get();
 
-        for (int i = 0; i < data.size(); i++) {
-            distanceProduct.add((double) dependentDistance.get(i) * independentDistance.get(i));
-        }
+        Long b1 = distanceProductSum / squaredIndependentDistanceSum;
+        Long b0 = dependentMean - (b1 * independentMean);
 
-        Double squaredIndependentDistanceSum = squaredIndependentDistance.stream().reduce(Double::sum).get();
-        Double distanceProductSum = distanceProduct.stream().reduce(Double::sum).get();
-        Double b1 = distanceProductSum / squaredIndependentDistanceSum;
-
-        List<Long> result = new ArrayList<>();
+        List<Integer> result = new ArrayList<>();
 
         for (int i = 1; i <= data.size(); i++) {
-            result.add((long) ((long) i * b1));
+            result.add((int) (b0 + (i * b1)));
         }
 
         return result;

@@ -33,33 +33,27 @@ public class ForLoopIntegerList implements Algorithm {
         return -1;
     }
 
-    public List<Long> run(int n) {
-        List<Long> data = new ArrayList<>();
+    public List<Integer> run(int n) {
+        List<Integer> data = new ArrayList<>();
 
         for (int i = 0; i < n; i++) {
-            List<List<Integer>> integerListsList = new ArrayList<>();
-            List<Integer> integers = new ArrayList<>();
-
-            for (int j = 0; j < i; j++) {
-                integerListsList.add(IntStream.rangeClosed(0, j).boxed().collect(Collectors.toList()));
-                integers.add(random.nextInt(integerListsList.get(j).size()));
-            }
+            List<Integer> list = IntStream.rangeClosed(0, i * 100000).boxed().collect(Collectors.toList());
+            int x = random.nextInt(list.size());
+            int result = 0;
 
             long startTime = System.nanoTime();
-            for (int j = 0; j < i; j++) {
-                search(integerListsList.get(j), integers.get(j));
-            }
+            result = search(list, x);
             long endTime = System.nanoTime();
 
-            System.out.println(formatMessage("Linear search ran " + i + " time(s) in: ") + formatNanoTime(startTime, endTime));
-            data.add((endTime - startTime));
+            System.out.println(formatMessage("For Loop linear search searched " + result + " item(s) in a list of " + list.size() + " in: ") + formatNanoTime(startTime, endTime));
+            data.add((int) (endTime - startTime));
         }
 
         return data;
     }
 
     @Override
-    public Scene createScene(List<Long> times) {
+    public Scene createScene(List<Integer> times) {
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Number of runs");
@@ -69,7 +63,7 @@ public class ForLoopIntegerList implements Algorithm {
         lineChart.setCreateSymbols(false);
         lineChart.setTitle("Time Complexity of Linear Search");
 
-        List<Long> estimated = linearRegressionAnalysis(times);
+        List<Integer> estimated = linearRegressionAnalysis(times);
         lineChart.getData().add(generateSeries("Estimated Values", estimated));
         lineChart.getData().add(generateSeries("Uncleaned Data", times));
 

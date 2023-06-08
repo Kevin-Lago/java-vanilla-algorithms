@@ -20,6 +20,8 @@ import static com.kevinthelago.Util.*;
  * */
 public class LinearSearch extends Application {
     private static Random random = new Random();
+    Stage window;
+    Scene forLoopInteger, streamIntegerList;
 
     public static void main(String[] args) {
         launch(args);
@@ -36,11 +38,11 @@ public class LinearSearch extends Application {
         final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
         lineChart.setTitle("Time Complexity of Linear Search");
 
-        int n = 10;
+        int n = 100;
 
         ForLoopIntegerList forLoopIntegerList = new ForLoopIntegerList();
 
-        List<Long> times = forLoopIntegerList.run(n);
+        List<Integer> times = forLoopIntegerList.run(n);
         Button forLoopIntegerButton = new Button("For Loop Integer");
         VBox layout = new VBox(2);
         layout.getChildren().addAll(lineChart, forLoopIntegerButton);
