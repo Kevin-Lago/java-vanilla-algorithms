@@ -21,6 +21,8 @@ import static com.kevinthelago.Util.*;
  * */
 public class LinearSearch extends Application {
     private static Random random = new Random();
+    private static final int n = 0;
+    private static final int m = 0;
     Stage window;
     Scene forLoopInteger, streamIntegerList;
 
@@ -34,7 +36,7 @@ public class LinearSearch extends Application {
 
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Number of runs");
+        xAxis.setLabel("Number of elements");
 
         final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
         lineChart.setTitle("Time Complexity of Linear Search");
@@ -51,7 +53,7 @@ public class LinearSearch extends Application {
         Button forLoopIntegerButton = new Button("For Loop Integer");
         VBox layout = new VBox(2);
         layout.getChildren().addAll(lineChart, forLoopIntegerButton);
-        forLoopIntegerButton.setOnAction(e -> primaryStage.setScene(forLoopIntegerList.createScene(times)));
+        forLoopIntegerButton.setOnAction(e -> primaryStage.setScene(forLoopIntegerList.createScene(times, m)));
         Scene scene = new Scene(layout, 800, 800);
         scene.getStylesheets().add("com/kevinthelago/style/Chart.css");
 
@@ -67,6 +69,6 @@ public class LinearSearch extends Application {
     public interface Algorithm {
         List<Integer> run(int n, int m);
 
-        Scene createScene(List<Integer> times);
+        Scene createScene(List<Integer> times, int m);
     }
 }

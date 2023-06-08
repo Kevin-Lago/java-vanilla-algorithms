@@ -53,20 +53,19 @@ public class ForLoopIntegerList implements LinearSearch.Algorithm {
     }
 
     @Override
-    public Scene createScene(List<Integer> times) {
+    public Scene createScene(List<Integer> times, int m) {
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Number of elements");
         yAxis.setLabel("Time in Nanoseconds");
-        int multiplier = 10000;
 
         final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
         lineChart.setCreateSymbols(false);
         lineChart.setTitle("Time Complexity of Linear Search");
 
         List<Integer> estimated = linearRegressionAnalysis(times);
-        lineChart.getData().add(generateSeries("Estimated Values", multiplier, estimated));
-        lineChart.getData().add(generateSeries("Uncleaned Data", multiplier, times));
+        lineChart.getData().add(generateSeries("Estimated Values", m, estimated));
+        lineChart.getData().add(generateSeries("Uncleaned Data", m, times));
 
         Scene scene = new Scene(lineChart, 800, 600);
         scene.getStylesheets().add("com/kevinthelago/style/Chart.css");
