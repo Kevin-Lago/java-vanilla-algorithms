@@ -1,15 +1,14 @@
-package util;
+package com.kevinthelago;
 
 import javafx.scene.chart.XYChart;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 public class Util {
+    public static Random random = new Random();
+
     public static XYChart.Series generateLogarithmicSeries(int n, int m) {
         XYChart.Series logarithmicSeries = new XYChart.Series();
         logarithmicSeries.setName("Logarithmic Series");

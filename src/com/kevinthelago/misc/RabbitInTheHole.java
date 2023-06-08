@@ -1,4 +1,4 @@
-package misc;
+package com.kevinthelago.misc;
 
 public class RabbitInTheHole {
 }
