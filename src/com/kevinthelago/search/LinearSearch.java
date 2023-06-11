@@ -1,74 +1,77 @@
 package com.kevinthelago.search;
 
-import com.kevinthelago.search.linear.ForLoopIntegerArray;
-import com.kevinthelago.search.linear.ForLoopIntegerList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.kevinthelago.Util.*;
+import static com.kevinthelago.Util.random;
 
 /**
- * These search algorithms assume the value exists and will be found.
- * This is just a test to visualize the time complexity of different search methods and data types
+ * This search algorithm assume the value exists and will be found.
  * */
 public class LinearSearch extends Application {
-    private static Random random = new Random();
-    private static final int n = 0;
-    private static final int m = 0;
-    Stage window;
-    Scene forLoopInteger, streamIntegerList;
+    private static final int n = 100; // Number of runs
+    private static final int m = 100000; // Multiplies the number of elements for each run
 
     public static void main(String[] args) {
         launch(args);
     }
 
+    public static int search(List<Integer> integers, Integer x) {
+        for (int i = 0; i < integers.size(); i++) {
+            if (integers.get(i).equals(x)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public List<Long> run(int n, int m) {
+        List<Long> data = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            List<Integer> list = IntStream.rangeClosed(0, i * m).boxed().collect(Collectors.toList());
+            int x = random.nextInt(list.size());
+
+            long startTime = System.nanoTime();
+            int result = search(list, x);
+            long endTime = System.nanoTime();
+
+            System.out.println(formatMessage("For Loop linear search searched " + result + " item(s) in a list of " + list.size() + " in: ") + formatNanoTime(startTime, endTime));
+            data.add((endTime - startTime));
+        }
+
+        return data;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Linear Search Results");
-
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Number of elements");
-
         final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
-        lineChart.setTitle("Time Complexity of Linear Search");
 
-        int n = 100;
-        int m = 100000;
-
-        ForLoopIntegerList forLoopIntegerList = new ForLoopIntegerList();
-        List<Integer> times = forLoopIntegerList.run(n, m);
-
-        ForLoopIntegerArray forLoopIntegerArray = new ForLoopIntegerArray();
-        List<Integer> forlooptimes = forLoopIntegerArray.run(n, m);
-
-        Button forLoopIntegerButton = new Button("For Loop Integer");
-        VBox layout = new VBox(2);
-        layout.getChildren().addAll(lineChart, forLoopIntegerButton);
-        forLoopIntegerButton.setOnAction(e -> primaryStage.setScene(forLoopIntegerList.createScene(times, m)));
-        Scene scene = new Scene(layout, 800, 800);
+        primaryStage.setTitle("Time Complexity of Linear Search");
+        xAxis.setLabel("Number of elements");
+        lineChart.setTitle("Linear Search Results");
+        Scene scene = new Scene(lineChart, 800, 600);
         scene.getStylesheets().add("com/kevinthelago/style/Chart.css");
 
+        List<Long> times = run(n, m);
+
         lineChart.setCreateSymbols(false);
-        lineChart.getData().add(generateLinearSeries(n, 1));
-        lineChart.getData().add(generateSeries("list", m, times));
-        lineChart.getData().add(generateSeries("array", m, forlooptimes));
+        lineChart.getData().add(generateSeries("Linear Search Result", m, times));
+        lineChart.getData().add(generateSeries("Estimated Values", m, linearRegressionAnalysis(times)));
 
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    public interface Algorithm {
-        List<Integer> run(int n, int m);
-
-        Scene createScene(List<Integer> times, int m);
     }
 }

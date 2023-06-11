@@ -31,7 +31,7 @@ public class Util {
         return linearSeries;
     }
 
-    public static XYChart.Series generateSeries(String title, int multiplier, List<Integer> data) {
+    public static XYChart.Series generateSeries(String title, int multiplier, List<Long> data) {
         XYChart.Series series = new XYChart.Series();
         series.setName(title);
 
@@ -42,14 +42,14 @@ public class Util {
         return series;
     }
 
-    public static List<Integer> linearRegressionAnalysis(List<Integer> data) {
+    public static List<Long> linearRegressionAnalysis(List<Long> data) {
         int independentMean = summation(data.size()) / data.size();
         List<Integer> independentDistance = new ArrayList<>();
         for (int i = 1; i <= data.size(); i++) {
             independentDistance.add(i - independentMean);
         }
 
-        Integer dependentMean = data.stream().reduce(0, Integer::sum) / data.size();
+        Long dependentMean = data.stream().reduce(0L, Long::sum) / data.size();
         List<Long> dependentDistance = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
             dependentDistance.add((long) data.get(i) - dependentMean);
@@ -69,10 +69,10 @@ public class Util {
         Long b1 = distanceProductSum / squaredIndependentDistanceSum;
         Long b0 = dependentMean - (b1 * independentMean);
 
-        List<Integer> result = new ArrayList<>();
+        List<Long> result = new ArrayList<>();
 
         for (int i = 1; i <= data.size(); i++) {
-            result.add((int) (b0 + (i * b1)));
+            result.add((b0 + (i * b1)));
         }
 
         return result;
